@@ -1,0 +1,14 @@
+version: "3.3"
+volumes:
+  data:
+services:
+  db:
+    platform: linux/amd64
+    image: mysql:5.6
+    ports:
+      - "3307:3306"
+    volumes:
+      - data:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=serv_api_nest
