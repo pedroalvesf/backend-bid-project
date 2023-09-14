@@ -21,6 +21,9 @@ export class ServiceService {
   async findOne(id: number): Promise<Service | null> {
     const service = await this.prisma.service.findUnique({
       where: { id },
+      include: {
+        requestedBy: true,
+      },
     });
 
     if (!service) {
