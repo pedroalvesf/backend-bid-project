@@ -16,6 +16,7 @@ model User {
   email             String    @unique
   password          String
   role              UserRole  @default(USER)
+  name              String    @default("")
   createdAt         DateTime  @default(now())
   updatedAt         DateTime  @updatedAt
   servicesRequested Service[]
@@ -25,6 +26,7 @@ model User {
 enum UserRole {
   USER
   PROVIDER
+  ADMIN
 }
 
 model Service {
@@ -36,8 +38,7 @@ model Service {
   requestedById Int
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
-
-  bids Bid[]
+  bids          Bid[]
 }
 
 model Bid {
