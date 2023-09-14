@@ -3,12 +3,19 @@ import { User } from '@prisma/client';
 import { PrismaService } from '../prisma.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import * as bcrypt from 'bcrypt';
+import { bcryptSalt } from 'src/auth/constants';
 
 @Injectable()
 export class UsersService {
   constructor(private prisma: PrismaService) {}
 
   async create(createUserDto: CreateUserDto): Promise<User> {
+    createUserDto.password = await bcrypt.hash(
+      createUserDto.password,
+      bcryptSalt,
+    );
+
     return this.prisma.user.create({
       data: createUserDto,
     });
