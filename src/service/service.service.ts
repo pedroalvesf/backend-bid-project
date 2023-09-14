@@ -30,7 +30,10 @@ export class ServiceService {
     return service;
   }
 
-  async update(id: number, updateServiceDto: UpdateServiceDto): Promise<Service> {
+  async update(
+    id: number,
+    updateServiceDto: UpdateServiceDto,
+  ): Promise<Service> {
     const service = await this.findOne(id);
 
     if (!service) {
