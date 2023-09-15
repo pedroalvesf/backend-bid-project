@@ -4,14 +4,17 @@ import {
   Delete,
   Get,
   Param,
-  Patch,
   Post,
+  Put,
+  UseFilters,
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UsersService } from './users.service';
 import { Public } from 'src/auth/constants';
+import { UserExceptionFilter } from './users-exception.filter';
 
+@UseFilters(new UserExceptionFilter())
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
@@ -32,7 +35,7 @@ export class UsersController {
     return this.usersService.findOneById(+id);
   }
 
-  @Patch(':id')
+  @Put(':id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.usersService.update(+id, updateUserDto);
   }

@@ -16,9 +16,10 @@ export class UsersService {
       bcryptSalt,
     );
 
-    return this.prisma.user.create({
+    const user = await this.prisma.user.create({
       data: createUserDto,
     });
+    return user;
   }
 
   async findAll(): Promise<User[]> {
