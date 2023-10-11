@@ -6,9 +6,10 @@ import { ServiceModule } from './service/service.module';
 import { AuthModule } from './auth/auth.module';
 import { AuthGuard } from './auth/auth.guard';
 import { APP_GUARD } from '@nestjs/core';
+import { BidModule } from './bid/bid.module';
 
 @Module({
-  imports: [UsersModule, ServiceModule, AuthModule],
+  imports: [UsersModule, ServiceModule, AuthModule, BidModule],
   controllers: [AppController],
   providers: [
     AppService,
