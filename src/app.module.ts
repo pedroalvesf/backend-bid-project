@@ -1,13 +1,13 @@
 import { Module } from '@nestjs/common';
+import { APP_GUARD } from '@nestjs/core';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UsersModule } from './users/users.module';
-import { ServiceModule } from './service/service.module';
-import { AuthModule } from './auth/auth.module';
 import { AuthGuard } from './auth/auth.guard';
-import { APP_GUARD } from '@nestjs/core';
+import { AuthModule } from './auth/auth.module';
 import { BidModule } from './bid/bid.module';
 import { PersonsModule } from './persons/persons.module';
+import { ServiceModule } from './service/service.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [UsersModule, ServiceModule, AuthModule, BidModule, PersonsModule],
