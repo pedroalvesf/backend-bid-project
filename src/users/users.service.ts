@@ -1,10 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { User } from '@prisma/client';
+import * as bcrypt from 'bcrypt';
+import { bcryptSalt } from 'src/auth/constants';
 import { PrismaService } from '../prisma.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import * as bcrypt from 'bcrypt';
-import { bcryptSalt } from 'src/auth/constants';
 
 @Injectable()
 export class UsersService {
@@ -26,7 +26,7 @@ export class UsersService {
     return this.prisma.user.findMany();
   }
 
-  async findOneById(id: number): Promise<User | null> {
+  async findOne(id: number): Promise<User | null> {
     const user = await this.prisma.user.findUnique({
       where: { id },
     });
@@ -38,12 +38,11 @@ export class UsersService {
     return user;
   }
 
-  async findOne(query: {
+  async findOneByEmail(query: {
     email?: string;
-    username?: string;
   }): Promise<User | null> {
     const user = await this.prisma.user.findUnique({
-      where: { email: query.email, username: query.username },
+      where: { email: query.email },
     });
 
     if (!user) {
@@ -54,24 +53,22 @@ export class UsersService {
   }
 
   async update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
-    await this.findOneById(id);
+    await this.findOne(id);
 
-    const { username, password, email, name, role } = updateUserDto;
+    const { password, email, role } = updateUserDto;
 
     return this.prisma.user.update({
       where: { id },
       data: {
-        username,
         password,
         email,
-        name,
         role,
       },
     });
   }
 
   async remove(id: number): Promise<User> {
-    await this.findOneById(id);
+    await this.findOne(id);
 
     return this.prisma.user.delete({
       where: { id },

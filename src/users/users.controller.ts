@@ -8,11 +8,11 @@ import {
   Put,
   UseFilters,
 } from '@nestjs/common';
+import { Public } from 'src/auth/constants';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { UsersService } from './users.service';
-import { Public } from 'src/auth/constants';
 import { UserExceptionFilter } from './users-exception.filter';
+import { UsersService } from './users.service';
 
 @UseFilters(new UserExceptionFilter())
 @Controller('users')
@@ -32,7 +32,7 @@ export class UsersController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.usersService.findOneById(+id);
+    return this.usersService.findOne(+id);
   }
 
   @Put(':id')

@@ -10,5 +10,5 @@ services:
     volumes:
       - data:/var/lib/mysql
     environment:
-      - MYSQL_ROOT_PASSWORD=password
-      - MYSQL_DATABASE=serv_api_nest
+      - MYSQL_ROOT_PASSWORD=
+      - MYSQL_DATABASE=bid_api_nest

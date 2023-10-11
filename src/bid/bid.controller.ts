@@ -19,6 +19,11 @@ export class BidController {
   }
 
   @Get(':id')
+    findAllByUser(@Param('id') id: string) {
+      return this.bidService.findAllByUser(+id);
+    }
+
+  @Get(':id')
   findOne(@Param('id') id: string) {
     return this.bidService.findOne(+id);
   }

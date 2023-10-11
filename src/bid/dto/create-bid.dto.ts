@@ -12,4 +12,5 @@ export class CreateBidDto {
   @IsNotEmpty()
   @MinLength(5)
   message: string;
+
 }

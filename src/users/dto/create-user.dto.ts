@@ -4,14 +4,10 @@ import {
   IsEnum,
   IsNotEmpty,
   IsOptional,
-  Length,
-  MinLength,
+  MinLength
 } from 'class-validator';
 
 export class CreateUserDto {
-  @IsNotEmpty()
-  @Length(3, 15)
-  username: string;
 
   @IsNotEmpty()
   @MinLength(6)

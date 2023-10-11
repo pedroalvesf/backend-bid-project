@@ -3,14 +3,10 @@ import {
   IsEmail,
   IsEnum,
   IsOptional,
-  Length,
-  MinLength,
+  MinLength
 } from 'class-validator';
 
 export class UpdateUserDto {
-  @IsOptional()
-  @Length(3, 15)
-  username: string;
 
   @IsOptional()
   @MinLength(6)
@@ -19,10 +15,6 @@ export class UpdateUserDto {
   @IsOptional()
   @IsEmail()
   email: string;
-
-  @IsOptional()
-  @MinLength(3)
-  name?: string;
 
   @IsOptional()
   @IsEnum(UserRole)
