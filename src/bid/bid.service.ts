@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Bid } from '@prisma/client';
 import { PrismaService } from 'src/prisma.service';
 import { CreateBidDto } from './dto/create-bid.dto';
@@ -9,15 +9,6 @@ export class BidService {
   constructor(private prisma: PrismaService) {}
 
   async create(createBidDto: CreateBidDto): Promise<Bid> {
-
-    const createdById = await this.prisma.user.findUnique({
-      where: { id: createBidDto.createdById },
-    });
-
-    if (!createdById) {
-      throw new Error(`User with id ${createBidDto.createdById} not found`);
-    }
-
     const serviceId = await this.prisma.service.findUnique({
       where: { id: createBidDto.serviceId },
     });
@@ -25,7 +16,6 @@ export class BidService {
     if (!serviceId) {
       throw new Error(`Service with id ${createBidDto.serviceId} not found`);
     }
-
 
     const bid =  await this.prisma.bid.create({
       data: createBidDto,
@@ -54,8 +44,18 @@ export class BidService {
       });
   }
 
-  update(id: number, updateBidDto: UpdateBidDto) {
-    return `This action updates a #${id} bid`;
+  async update(id: number, updateBidDto: UpdateBidDto): Promise<Bid> {
+    const bid = await this.prisma.bid.findUnique({
+      where: { id },
+    });
+    if (!bid) {
+      throw new NotFoundException(`Bid with id ${id} not found`);
+    }
+
+    return this.prisma.bid.update({
+      where: { id },
+      data: updateBidDto,
+    });
   }
 
   remove(id: number) {
