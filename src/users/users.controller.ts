@@ -7,7 +7,7 @@ import {
   Post,
   Put
 } from '@nestjs/common';
-import { Public } from 'src/auth/constants';
+import { Public } from '../auth/constants';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UsersService } from './users.service';

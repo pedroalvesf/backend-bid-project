@@ -1,7 +1,7 @@
 import {
-  ExceptionFilter,
-  Catch,
   ArgumentsHost,
+  Catch,
+  ExceptionFilter,
   HttpException,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
@@ -24,7 +24,7 @@ export class UserExceptionFilter implements ExceptionFilter {
 
     if (exception.code === 'P2002') {
       return response.status(409).json({
-        message: 'Email or username already exists',
+        message: 'Email already exists',
         error: 'Conflict',
         statusCode: 409,
       });
