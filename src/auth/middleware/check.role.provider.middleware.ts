@@ -3,22 +3,20 @@ import { JwtService } from "@nestjs/jwt";
 import { NextFunction, Request, Response } from "express";
 
 @Injectable()
-export class CheckRoleMiddleware implements NestMiddleware {
+export class CheckRoleProviderMiddleware implements NestMiddleware {
   constructor(
     private jwtService: JwtService,
   ) {}
 
   use(req: Request, res: Response, next: NextFunction) {
     const token = req.headers.authorization?.replace('Bearer ', '');
-    if (!token) {
-      res.status(401).json({ message: 'Unauthorized' });
-      return;
-    } try {
-      const payload = this.jwtService.verify(token);
-      if (payload.role === 'ADMIN') {
+    
+    try {
+      const payload = this.jwtService.decode(token) as { role: string };
+      if (payload.role === 'PROVIDER') {
         next();
       } else {
-        res.status(403).json({ message: 'Access not authorized' });
+        res.status(403).json({ message: 'Must be a provider account' });
       }
     } catch (error) {
       res.status(401).json({ message: 'Unauthorized' });
