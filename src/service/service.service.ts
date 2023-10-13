@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Service } from '@prisma/client';
 import { PrismaService } from '../prisma.service';
 import { CreateServiceDto } from './dto/create-service.dto';
@@ -40,7 +40,7 @@ export class ServiceService {
     const service = await this.findOne(id);
 
     if (!service) {
-      throw new Error(`Service with id ${id} not found`);
+      throw new NotFoundException(`Service with id ${id} not found`);
     }
 
     return this.prisma.service.update({
@@ -53,7 +53,7 @@ export class ServiceService {
     const service = await this.findOne(id);
 
     if (!service) {
-      throw new Error(`Service with id ${id} not found`);
+      throw new NotFoundException(`Service with id ${id} not found`);
     }
 
     return this.prisma.service.delete({
