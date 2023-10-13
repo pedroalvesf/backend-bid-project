@@ -20,4 +20,11 @@ export class AuthService {
       access_token: await this.jwtService.signAsync(payload),
     };
   }
+
+  decodeToken(token: string) {
+    const tk = this.jwtService.decode(token);
+    console.log(tk)
+    return tk;
+  }
+
 }
