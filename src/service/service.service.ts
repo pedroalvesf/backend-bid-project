@@ -27,7 +27,7 @@ export class ServiceService {
     });
 
     if (!service) {
-      throw new Error(`Service with id ${id} not found`);
+      throw new NotFoundException(`Service with id ${id} not found`);
     }
 
     return service;
@@ -37,7 +37,9 @@ export class ServiceService {
     id: number,
     updateServiceDto: UpdateServiceDto,
   ): Promise<Service> {
-    const service = await this.findOne(id);
+    const service = await this.prisma.service.findUnique({
+      where: { id },
+    });
 
     if (!service) {
       throw new NotFoundException(`Service with id ${id} not found`);

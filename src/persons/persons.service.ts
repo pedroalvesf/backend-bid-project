@@ -46,6 +46,14 @@ export class PersonsService {
   }
 
   remove(id: number) {
+    const person = this.prisma.person.findUnique({
+      where: { id },
+    });
+
+    if (!person) {
+      throw new NotFoundException(`Person with id ${id} not found`);
+    }
+    
     return this.prisma.person.delete({
       where: { id },
       });

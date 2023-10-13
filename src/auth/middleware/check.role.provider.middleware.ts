@@ -13,7 +13,7 @@ export class CheckRoleProviderMiddleware implements NestMiddleware {
     
     try {
       const payload = this.jwtService.decode(token) as { role: string };
-      if (payload.role === 'PROVIDER') {
+      if (payload.role === 'PROVIDER' || payload.role === 'ADMIN') {
         next();
       } else {
         res.status(403).json({ message: 'Must be a provider account' });

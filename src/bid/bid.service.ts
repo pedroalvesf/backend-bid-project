@@ -14,7 +14,7 @@ export class BidService {
     });
 
     if (!serviceId) {
-      throw new Error(`Service with id ${createBidDto.serviceId} not found`);
+      throw new NotFoundException(`Service with id ${createBidDto.serviceId} not found`);
     }
 
     const bid =  await this.prisma.bid.create({
