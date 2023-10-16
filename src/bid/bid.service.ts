@@ -17,8 +17,17 @@ export class BidService {
       throw new NotFoundException(`Service with id ${createBidDto.serviceId} not found`);
     }
 
+    if (serviceId.status === 'CLOSED' || serviceId.status === 'CANCELED') {
+      throw new NotFoundException(`Service with id ${createBidDto.serviceId} is closed`);
+    }
+
     const bid =  await this.prisma.bid.create({
-      data: createBidDto,
+      data: {
+        price: createBidDto.price,
+        message: createBidDto.message,
+        service: { connect: { id: createBidDto.serviceId } },
+        createdBy: { connect: { id: createBidDto.createdById }},
+      },
     });
 
     return bid;
@@ -54,7 +63,11 @@ export class BidService {
 
     return this.prisma.bid.update({
       where: { id },
-      data: updateBidDto,
+      data: {
+        price: updateBidDto.price,
+        message: updateBidDto.message,
+        bidStatus: updateBidDto.bidStatus,
+      },
     });
   }
 
