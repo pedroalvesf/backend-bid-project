@@ -43,25 +43,40 @@ enum UserRole {
 }
 
 model Service {
-  id            Int      @id @default(autoincrement())
+  id            Int           @id @default(autoincrement())
   title         String
   description   String
   priceRange    Float
-  requestedBy   User     @relation(fields: [requestedById], references: [id])
+  requestedBy   User          @relation(fields: [requestedById], references: [id])
   requestedById Int
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  status        ServiceStatus @default(OPEN)
   bids          Bid[]
 }
 
+enum ServiceStatus {
+  OPEN
+  CLOSED
+  CANCELED
+}
+
 model Bid {
-  id          Int      @id @default(autoincrement())
+  id          Int       @id @default(autoincrement())
   price       Float
   message     String?
-  createdBy   User     @relation(fields: [createdById], references: [id])
+  createdBy   User      @relation(fields: [createdById], references: [id])
   createdById Int
-  service     Service  @relation(fields: [serviceId], references: [id])
+  service     Service   @relation(fields: [serviceId], references: [id])
   serviceId   Int
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  bidStatus   BidStatus @default(OPEN)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+enum BidStatus {
+  OPEN
+  ACCEPTED
+  REJECTED
+  CANCELED
 }
