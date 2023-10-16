@@ -51,6 +51,45 @@ export class ServiceService {
     });
   }
 
+  async bidAcceptance(
+    idBid: number,
+    idService: number
+  ) {
+
+    const service = await this.prisma.service.findUnique({
+      where: { id: idService },
+    });
+
+    if (!service) {
+      throw new NotFoundException(`Service with id ${idService} not found`);
+    }
+
+    const bid = await this.prisma.bid.findUnique({
+      where: { id: idBid },
+    });
+
+    if (!bid) {
+      throw new NotFoundException(`Bid with id ${idBid} not found`);
+    }
+    
+    await this.prisma.service.update({
+      where: { id: idService },
+      data: {
+        status: "CLOSED"
+      },
+    });
+    await this.prisma.bid.update({
+      where: { id: idBid },
+      data: {
+        bidStatus: "ACCEPTED"
+      },
+    });
+
+    return {
+      message: "Bid accepted"
+    };
+  }
+
   async remove(id: number): Promise<Service> {
     const service = await this.findOne(id);
 
@@ -60,6 +99,21 @@ export class ServiceService {
 
     return this.prisma.service.delete({
       where: { id },
+    });
+  }
+
+  async cancelServiceRequest(id: number): Promise<Service> {
+    const service = await this.findOne(id);
+
+    if (!service) {
+      throw new NotFoundException(`Service with id ${id} not found`);
+    }
+
+    return this.prisma.service.update({
+      where: { id },
+      data: {
+        status: "CANCELED"
+      },
     });
   }
 }

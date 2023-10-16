@@ -1,3 +1,4 @@
+import { Optional } from '@nestjs/common';
 import { IsNotEmpty, Min, MinLength } from 'class-validator';
 
 export class CreateServiceDto {
@@ -14,4 +15,7 @@ export class CreateServiceDto {
   priceRange: number;
 
   requestedById: number;
+
+  @Optional()
+  serviceStatus: string;
 }
