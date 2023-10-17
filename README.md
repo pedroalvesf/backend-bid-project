@@ -45,6 +45,19 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
+## Base guide
+```
+POST
+  users(Default role as User, try ADMIN) -
+  auth/login
+  person
+```
+
+## Swagger Documentation
+![Screenshot 2023-10-17 at 10 20 32](https://github.com/pedroalvesf/backend-bid-project/assets/48419561/8a537245-0fa9-48ea-b856-de92b41482aa)
+
+
+
 ## Test
 
 ```bash
